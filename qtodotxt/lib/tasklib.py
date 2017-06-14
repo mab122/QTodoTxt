@@ -53,6 +53,7 @@ class Task(QtCore.QObject):
         self.projects = []
         self.priority = ""
         self.is_complete = False
+        self.is_hidden = False
         self.completion_date = None
         self.creation_date = None
         self.is_future = False
@@ -71,6 +72,7 @@ class Task(QtCore.QObject):
         """
         self._reset()
         words = line.split(' ')
+
         if words[0] == "x":
             self.is_complete = True
             words = words[1:]
@@ -92,6 +94,13 @@ class Task(QtCore.QObject):
         for word in words:
             self._parseWord(word)
         self._text = line
+        # if self.keywords['h']:
+        #     self.is_hidden = True
+        # for word in words:
+        #     if word == "h:1":
+        #         self.is_hidden = True
+        #     elif word == "h:0":
+        #         self.is_hidden = False
 
     @property
     def text(self):
@@ -126,6 +135,9 @@ class Task(QtCore.QObject):
                             self.is_future = True
                 elif word.startswith('rec:'):
                     self._parseRecurrence(word)
+                elif word.startswith('h:'):
+                    if self.keywords['h'] == '1':
+                        self.is_hidden = True
 
     def _parseRecurrence(self, word):
         # Original due date mode

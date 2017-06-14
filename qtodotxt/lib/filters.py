@@ -30,11 +30,7 @@ class BaseFilter(object):
         In this base class, the test always returns True.
 
         """
-        if task.text.find("h:1") == -1:
-            return True
-        else:
-            return False
-
+        return True
     def __eq__(self, other):
         """
         Evaluates objects as equal if their type and self.text attr are the same.
@@ -55,6 +51,20 @@ class AllTasksFilter(BaseFilter):
 
     def __init__(self):
         BaseFilter.__init__(self, 'All')
+
+class AllTasksHiddenFilter(BaseFilter):
+    """
+    Task list filter that returns all tasks.
+
+    """
+
+    def __init__(self):
+        BaseFilter.__init__(self, 'All w/o hidden')
+
+    def isMatch(self,task):
+        return not task.is_hidden
+    def __str__(self):
+        return "HiddenFilter " % self.text
 
 
 class IncompleteTasksFilter(BaseFilter):

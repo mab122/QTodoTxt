@@ -11,7 +11,7 @@ from qtodotxt.lib.file import ErrorLoadingFile, File, FileObserver
 
 from qtodotxt.ui.controllers.tasks_list_controller import TasksListController
 from qtodotxt.ui.controllers.filters_tree_controller import FiltersTreeController
-from qtodotxt.lib.filters import SimpleTextFilter, FutureFilter, IncompleteTasksFilter, CompleteTasksFilter
+from qtodotxt.lib.filters import SimpleTextFilter, FutureFilter, IncompleteTasksFilter, CompleteTasksFilter, AllTasksHiddenFilter
 from qtodotxt.ui.controllers.menu_controller import MenuController
 
 
@@ -101,6 +101,11 @@ class MainController(QtCore.QObject):
         self.showSearchAction.setShortcuts(['Ctrl+F'])
         self.showSearchAction.triggered.connect(self._toggleShowSearch)
 
+        self.showHiddenAction = QtWidgets.QAction(self.tr('Show hidden tasks'), self)
+        self.showHiddenAction.setCheckable(True)
+        self.showHiddenAction.setShortcuts([])
+        self.showHiddenAction.triggered.connect(self._toggleShowHidden)
+
     def _initToolBar(self):
         toolbar = self.view.addToolBar("Main Toolbar")
         toolbar.setObjectName("mainToolbar")
@@ -150,6 +155,17 @@ class MainController(QtCore.QObject):
             self._settings.setValue("show_search", 0)
             self.view.tasks_view.tasks_search_view.setVisible(False)
             self.view.tasks_view.tasks_search_view.setText("")
+
+    def _toggleShowHidden(self):
+        if self.showSearchAction.isChecked():
+            self._settings.setValue("show_hidden", 1)
+            self.updateFilters()
+            # self.view.tasks_view.tasks_search_view.setVisible(True)
+        else:
+            self._settings.setValue("show_hidden", 0)
+            self.updateFilters()
+            # self.view.tasks_view.tasks_search_view.setVisible(False)
+            # self.view.tasks_view.tasks_search_view.setText("")
 
     def _toggleShowCompleted(self):
         if self.showCompletedAction.isChecked():
@@ -249,6 +265,8 @@ class MainController(QtCore.QObject):
         # with future filter if needed
         if not self.showFutureAction.isChecked():
             tasks = tasklib.filterTasks([FutureFilter()], tasks)
+        if not self.showHiddenAction.isChecked():
+            tasks = tasklib.filterTasks([AllTasksHiddenFilter()], tasks)
         # with complete filter if needed
         if not CompleteTasksFilter() in filters and not self.showCompletedAction.isChecked():
             tasks = tasklib.filterTasks([IncompleteTasksFilter()], tasks)
