@@ -1,3 +1,9 @@
+## This is a fork
+It adds hidden tasks.
+~mab122
+
+Just add `h:1` to the task and it will be hidden from the lists. There is option under the View menu to show hidden tasks.
+
 # QTodoTxt
 [![Build Status](https://travis-ci.org/QTodoTxt/QTodoTxt.png?branch=master)](https://travis-ci.org/QTodoTxt/QTodoTxt) [![GPLv3+](https://img.shields.io/badge/license-GPLv3%2B-blue.svg)](https://github.com/QTodoTxt/QTodoTxt/blob/master/gpl.txt)[![Translation](https://hosted.weblate.org/widgets/qtodotxt/-/svg-badge.svg)](https://hosted.weblate.org/projects/qtodotxt/)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/QTodoTxt/QTodoTxt/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/QTodoTxt/QTodoTxt/?branch=master)
