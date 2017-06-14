@@ -30,7 +30,10 @@ class BaseFilter(object):
         In this base class, the test always returns True.
 
         """
-        return True
+        if task.text.find("h:1") == -1:
+            return True
+        else
+            return False
 
     def __eq__(self, other):
         """
