@@ -32,7 +32,7 @@ class BaseFilter(object):
         """
         if task.text.find("h:1") == -1:
             return True
-        else
+        else:
             return False
 
     def __eq__(self, other):
